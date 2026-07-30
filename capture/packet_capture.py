@@ -6,6 +6,7 @@ from scapy.error import Scapy_Exception
 
 from utils.logger import logger
 
+from data.datastore import DataStore
 
 class PacketCapture:
     """
@@ -88,13 +89,22 @@ class PacketCapture:
      except Exception as e:
         logger.error(f"Error while stopping capture: {e}")
 
-def print_packet(packet_info):
-    print(packet_info)
+data_store = DataStore()
+
+def handle_packet(packet_info):
+    data_store.add_packet(packet_info)
+    
+    # debugging console part
+    # stats = data_store.get_statistics()
+    # stats = data_store.get_statistics()
+    # print("\n========== Statistics ==========")
+    # for key, value in stats.items():
+    #     print(f"{key}: {value}")
 
 if __name__ == "__main__":
 
     capture = PacketCapture(
-    packet_callback=print_packet
+    packet_callback=handle_packet
 )
 
     try:
